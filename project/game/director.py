@@ -3,6 +3,8 @@ from game.player import Player
 from game import constants
 from game.coins import Coins
 from game.gems import Gems
+from game.follow_camera import Follow_camera
+
 
 class TeamGame(arcade.Window):
     """ This will be the main application class """
@@ -18,6 +20,7 @@ class TeamGame(arcade.Window):
         self.player_list = None
         self.coin_list = None
         self.gem_list = None
+        self.camera = None
 
         # Create player Sprite
         self.player_sprite = None
@@ -37,6 +40,8 @@ class TeamGame(arcade.Window):
 
     def setup(self): # this looks like it should be separated out into a class
 
+        #setup camera
+        self.camera = Follow_camera(self.width, self.height)
         # this is where we'll start the game?
         self.player_list = arcade.SpriteList()
         self.platform_list = arcade.SpriteList(use_spatial_hash=True)
@@ -94,11 +99,13 @@ class TeamGame(arcade.Window):
     def on_draw(self):
         arcade.start_render()
 
+        self.camera.use()
         # code for drawing the screen will be placed here
         self.player_list.draw()
         self.platform_list.draw()
         self.coin_list.draw()
         self.gem_list.draw()
+
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed."""
@@ -128,7 +135,9 @@ class TeamGame(arcade.Window):
 
         # Move the player with the physics engine
         self.physics_engine.update()
-         # See if we hit any coins
+
+        self.camera.center_camera_to_player(self.player_sprite)
+        # See if we hit any coins
         coin_hit_list = arcade.check_for_collision_with_list(
             self.player_sprite, self.coin_list
         )
