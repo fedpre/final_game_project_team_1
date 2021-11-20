@@ -28,8 +28,10 @@ class TeamGame(arcade.Window):
         # Create the sounds
         self.background_sound = arcade.load_sound(constants.BACKGROUND_MUSIC_PATH)
         self.jump_sound = arcade.load_sound(":resources:sounds/phaseJump1.wav")
-
+        self.collect_coin_sound = arcade.load_sound(":resources:sounds/coin1.wav")
+        self.collect_gem_sound = arcade.load_sound(":resources:sounds/coin1.wav")
         
+
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
         arcade.play_sound(self.background_sound, 0.1)
 
@@ -118,10 +120,35 @@ class TeamGame(arcade.Window):
             self.player_sprite.change_x = 0
         elif key == arcade.key.RIGHT or key == arcade.key.D:
             self.player_sprite.change_x = 0
+
+    
         
     def on_update(self, delta_time):
         """Movement and game logic"""
 
         # Move the player with the physics engine
         self.physics_engine.update()
+         # See if we hit any coins
+        coin_hit_list = arcade.check_for_collision_with_list(
+            self.player_sprite, self.coin_list
+        )
+        gem_hit_list = arcade.check_for_collision_with_list(
+            self.player_sprite, self.gem_list
+
+        )
+
+        # Loop through each coin we hit (if any) and remove it
+        for coin in coin_hit_list:
+            # Remove the coin
+            coin.remove_from_sprite_lists()
+            # Play a sound
+            arcade.play_sound(self.collect_coin_sound)
+        for gem in gem_hit_list:
+                # Remove the coin
+            gem.remove_from_sprite_lists()
+            # Play a sound
+            arcade.play_sound(self.collect_gem_sound)
+        
+
+
     
