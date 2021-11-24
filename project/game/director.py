@@ -13,7 +13,6 @@ class TeamGame(arcade.Window):
         # call the parent class and setup a window
         super().__init__(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, constants.SCREEN_TITLE)
 
-
         # Initialize the Sprites lists
         # These are list to keep track of sprites
         self.platform_list = None
@@ -28,6 +27,9 @@ class TeamGame(arcade.Window):
         # Create the physics engine
         self.physics_engine = None
 
+        # Create the variable to store the score
+        self.score = 0
+
         # Create the sounds
         self.background_sound = arcade.load_sound(constants.BACKGROUND_MUSIC_PATH)
         self.jump_sound = arcade.load_sound(":resources:sounds/phaseJump1.wav")
@@ -40,7 +42,7 @@ class TeamGame(arcade.Window):
 
     def setup(self): # this looks like it should be separated out into a class
 
-        #setup camera
+        # setup camera
         self.camera = Follow_camera(self.width, self.height)
         # this is where we'll start the game?
         self.player_list = arcade.SpriteList()
@@ -127,8 +129,6 @@ class TeamGame(arcade.Window):
             self.player_sprite.change_x = 0
         elif key == arcade.key.RIGHT or key == arcade.key.D:
             self.player_sprite.change_x = 0
-
-    
         
     def on_update(self, delta_time):
         """Movement and game logic"""
@@ -148,6 +148,7 @@ class TeamGame(arcade.Window):
 
         # Loop through each coin we hit (if any) and remove it
         for coin in coin_hit_list:
+            self.score += coin.get_value()
             # Remove the coin
             coin.remove_from_sprite_lists()
             # Play a sound
