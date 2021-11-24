@@ -4,6 +4,9 @@ from game import constants
 from game.coins import Coins
 from game.gems import Gems
 from game.follow_camera import Follow_camera
+from game.key_press import UserMovement
+from game.drawing import Drawing
+from game.do_updates import DoUpdates
 
 
 class TeamGame(arcade.Window):
@@ -20,6 +23,9 @@ class TeamGame(arcade.Window):
         self.coin_list = None
         self.gem_list = None
         self.camera = None
+        self.player_movement = None
+        self.drawing = None
+        self.do_updates = None
 
         # Create player Sprite
         self.player_sprite = None
@@ -97,68 +103,35 @@ class TeamGame(arcade.Window):
         self.physics_engine = arcade.PhysicsEnginePlatformer(
             self.player_sprite, gravity_constant=constants.GRAVITY, walls=self.platform_list
         )
+        
+        # Create the movement checker
+        self.player_movement = UserMovement()
+
+        self.do_updates = DoUpdates(self.player_sprite, self.physics_engine, self.camera)
 
     def on_draw(self):
-        arcade.start_render()
-
-        self.camera.use()
-        # code for drawing the screen will be placed here
-        self.player_list.draw()
-        self.platform_list.draw()
-        self.coin_list.draw()
-        self.gem_list.draw()
-
+        """ Draw all the elements on the screen """
+        self.drawing = Drawing()
+        self.drawing.draw_objects(self.player_list, self.platform_list, self.coin_list, self.gem_list)
+        self.drawing.use_camera(self.camera)
 
     def on_key_press(self, key, modifiers):
-        """Called whenever a key is pressed."""
-
-        if key == arcade.key.UP or key == arcade.key.W:
-            if self.physics_engine.can_jump():
-                self.player_sprite.change_y = constants.PLAYER_JUMP_SPEED
-                arcade.play_sound(self.jump_sound)
-        elif key == arcade.key.DOWN or key == arcade.key.S:
-            self.player_sprite.change_y = -constants.PLAYER_MOVEMENT_SPEED
-        elif key == arcade.key.LEFT or key == arcade.key.A:
-            self.player_sprite.change_x = -constants.PLAYER_MOVEMENT_SPEED
-        elif key == arcade.key.RIGHT or key == arcade.key.D:
-            self.player_sprite.change_x = constants.PLAYER_MOVEMENT_SPEED
+        """Update the player's movement on key press"""
+        self.player_movement.movement(key, modifiers, self.player_sprite, self.physics_engine, self.jump_sound)
 
     def on_key_release(self, key, modifiers):
-        """Called when the user releases a key."""
-        if key == arcade.key.LEFT or key == arcade.key.A:
-            self.player_sprite.change_x = 0
-        elif key == arcade.key.RIGHT or key == arcade.key.D:
-            self.player_sprite.change_x = 0
+        """Update the player's movement on key release"""
+        self.player_movement.movement_stop(key, modifiers, self.player_sprite)
         
     def on_update(self, delta_time):
         """Movement and game logic"""
+        # Update the physics engine and camera
+        self.do_updates.do_updates()
+        # Process the coin hit
+        self.do_updates.check_object_collision(self.coin_list, self.collect_coin_sound)
+         # Process the gem hit
+        self.do_updates.check_object_collision(self.gem_list, self.collect_gem_sound)
 
-        # Move the player with the physics engine
-        self.physics_engine.update()
-
-        self.camera.center_camera_to_player(self.player_sprite)
-        # See if we hit any coins
-        coin_hit_list = arcade.check_for_collision_with_list(
-            self.player_sprite, self.coin_list
-        )
-        gem_hit_list = arcade.check_for_collision_with_list(
-            self.player_sprite, self.gem_list
-
-        )
-
-        # Loop through each coin we hit (if any) and remove it
-        for coin in coin_hit_list:
-            self.score += coin.get_value()
-            # Remove the coin
-            coin.remove_from_sprite_lists()
-            # Play a sound
-            arcade.play_sound(self.collect_coin_sound)
-        for gem in gem_hit_list:
-                # Remove the coin
-            gem.remove_from_sprite_lists()
-            # Play a sound
-            arcade.play_sound(self.collect_gem_sound)
-        
 
 
     
