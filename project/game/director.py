@@ -52,7 +52,7 @@ class TeamGame(arcade.Window):
         self.player_sprite = Player(image_source, constants.CHARACTER_SCALING)
         self.player_sprite.center_x = 64
         self.player_sprite.center_y = 128
-        self.score = Score(0)
+        self.score = Score()
         self.player_list.append(self.player_sprite)
         # Create the ground
         # this places multiple sprites horizontally

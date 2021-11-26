@@ -1,9 +1,9 @@
 import arcade
 
 class Score:
-    def __init__(self, score):
+    def __init__(self):
         super().__init__()
-        self.score = score
+        self.score = 0
         self.set_text()
 
     def set_text(self):
@@ -12,6 +12,6 @@ class Score:
     def get_text(self):
         return self.text
 
-    def add_point(self):
-        self.score += 1
+    def add_point(self, points):
+        self.score += points
         self.set_text()

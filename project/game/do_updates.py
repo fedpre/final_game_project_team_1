@@ -23,6 +23,7 @@ class DoUpdates:
             obj.remove_from_sprite_lists()
             # Play a sound
             arcade.play_sound(sound)
-            self._score.add_point()
+            points = obj.get_value()
+            self._score.add_point(points)
 
     
