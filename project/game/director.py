@@ -10,11 +10,11 @@ from game.do_updates import DoUpdates
 from game.score import Score
 
 
-class TeamGame(arcade.Window):
+class GameView(arcade.View):
     """ This will be the main application class """
     def __init__(self):
         # call the parent class and setup a window
-        super().__init__(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, constants.SCREEN_TITLE)
+        super().__init__()
         # Initialize the Sprites lists
         self.platform_list = None
         self.player_list = None
@@ -42,8 +42,8 @@ class TeamGame(arcade.Window):
 
     def setup(self): 
         # setup camera
-        self.camera = Follow_camera(self.width, self.height)
-        self.gui_camera = arcade.Camera(self.width, self.height)
+        self.camera = Follow_camera(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
+        self.gui_camera = arcade.Camera(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
         # this is where we'll start the game?
         self.player_list = arcade.SpriteList()
         self.platform_list = arcade.SpriteList(use_spatial_hash=True)
