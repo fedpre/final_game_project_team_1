@@ -1,10 +1,11 @@
 import arcade
 
 class DoUpdates:
-    def __init__(self, player, physics_engine, camera):
+    def __init__(self, player, physics_engine, camera, score):
         self._player = player
         self._engine = physics_engine
         self._camera = camera
+        self._score = score
 
         self._engine.update()
 
@@ -22,4 +23,6 @@ class DoUpdates:
             obj.remove_from_sprite_lists()
             # Play a sound
             arcade.play_sound(sound)
+            self._score.add_point()
+
     
