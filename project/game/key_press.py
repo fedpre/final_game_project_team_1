@@ -6,7 +6,7 @@ class UserMovement():
     def movement(self, key, modifiers, player_sprite, physics_engine, jump_sound):
         """Called whenever a key is pressed."""
 
-        if key == arcade.key.UP or key == arcade.key.W:
+        if key == arcade.key.UP or key == arcade.key.SPACE or key == arcade.key.W:
             if physics_engine.can_jump():
                 player_sprite.change_y = constants.PLAYER_JUMP_SPEED
                 arcade.play_sound(jump_sound)
