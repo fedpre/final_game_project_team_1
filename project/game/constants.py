@@ -17,3 +17,11 @@ PLAYER_JUMP_SPEED = 20
 # Path
 PATH = os.path.dirname(os.path.abspath(__file__))
 BACKGROUND_MUSIC_PATH = PATH + "/sounds/background.wav"
+
+# Music files
+JUMP_SOUND = ":resources:sounds/phaseJump1.wav"
+COIN_SOUND = ":resources:sounds/coin1.wav"
+GEM_SOUND = ":resources:sounds/coin1.wav"
+
+# Sprites Images
+IMAGE_PLAYER = ":resources:images/animated_characters/female_person/femalePerson_idle.png"

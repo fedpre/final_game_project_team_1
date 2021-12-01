@@ -33,9 +33,9 @@ class GameView(arcade.View):
         self.score = None
         # Create the sounds
         self.background_sound = arcade.load_sound(constants.BACKGROUND_MUSIC_PATH)
-        self.jump_sound = arcade.load_sound(":resources:sounds/phaseJump1.wav")
-        self.collect_coin_sound = arcade.load_sound(":resources:sounds/coin1.wav")
-        self.collect_gem_sound = arcade.load_sound(":resources:sounds/coin1.wav")
+        self.jump_sound = arcade.load_sound(constants.JUMP_SOUND)
+        self.collect_coin_sound = arcade.load_sound(constants.COIN_SOUND)
+        self.collect_gem_sound = arcade.load_sound(constants.GEM_SOUND)
         # Set the background and play the sound
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
         arcade.play_sound(self.background_sound, 0.1)
@@ -47,11 +47,8 @@ class GameView(arcade.View):
         # this is where we'll start the game?
         self.player_list = arcade.SpriteList()
         self.platform_list = arcade.SpriteList(use_spatial_hash=True)
-        # setup the player at specific coordinates
-        image_source = ":resources:images/animated_characters/female_person/femalePerson_idle.png"
-        self.player_sprite = Player(image_source, constants.CHARACTER_SCALING)
-        self.player_sprite.center_x = 64
-        self.player_sprite.center_y = 128
+        # Create the player
+        self.player_sprite = Player()
         self.score = Score()
         self.player_list.append(self.player_sprite)
         # Create the ground
