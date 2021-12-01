@@ -1,21 +1,19 @@
 import arcade
 from game.player import Player
 from game import constants
-from game.coins import Coins
-from game.gems import Gems
 from game.follow_camera import Follow_camera
 from game.key_press import UserMovement
 from game.drawing import Drawing
 from game.do_updates import DoUpdates
 from game.score import Score
-
+from game.helper import Helper
 
 class GameView(arcade.View):
     """ This will be the main application class """
     def __init__(self):
         # call the parent class and setup a window
         super().__init__()
-        # Initialize the Sprites lists
+        # Initialize game lists
         self.platform_list = None
         self.player_list = None
         self.coin_list = None
@@ -25,12 +23,14 @@ class GameView(arcade.View):
         self.player_movement = None
         self.drawing = None
         self.do_updates = None
-        # Create player Sprite
+        # Create Sprites
         self.player_sprite = None
         # Create the physics engine
         self.physics_engine = None
         # Create the variable to store the score
         self.score = None
+        # Create the helper
+        self.helper = Helper()
         # Create the sounds
         self.background_sound = arcade.load_sound(constants.BACKGROUND_MUSIC_PATH)
         self.jump_sound = arcade.load_sound(constants.JUMP_SOUND)
@@ -44,44 +44,24 @@ class GameView(arcade.View):
         # setup camera
         self.camera = Follow_camera(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
         self.gui_camera = arcade.Camera(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
-        # this is where we'll start the game?
+        # Create the Sprites lists
         self.player_list = arcade.SpriteList()
         self.platform_list = arcade.SpriteList(use_spatial_hash=True)
         # Create the player
         self.player_sprite = Player()
-        self.score = Score()
         self.player_list.append(self.player_sprite)
+        # Create the Score
+        self.score = Score()
         # Create the ground
-        # this places multiple sprites horizontally
-        for x in range(0, constants.SCREEN_WIDTH, 60):
-            platform = arcade.Sprite(":resources:images/tiles/stoneMid.png", constants.TILE_SCALING)
-            platform.center_x = x
-            platform.center_y = 32
-            self.platform_list.append(platform)
-        # Put some crates on the ground
-        # This shows using a coordinate list to place sprites
-        coordinate_list = [[256, 96], [384, 275], [512, 96], [640, 275], [768, 96]]
-        for coordinate in coordinate_list:
-            # Add a crate on the ground
-            platform = arcade.Sprite(
-                ":resources:images/tiles/boxCrate_double.png", constants.TILE_SCALING
-            )
-            platform.position = coordinate
-            self.platform_list.append(platform)
-        # Create some coins
-        coordinate_list_coins = [[256, 150], [512, 150]]
+        self.helper.create_ground(self.platform_list)
+        # Adding Crates
+        self.helper.create_crates(constants.CRATES_COORDINATES, self.platform_list)
+        # Create Coins
         self.coin_list = arcade.SpriteList()
-        for position in coordinate_list_coins:
-            coin = Coins(":resources:images/items/gold_1.png", constants.TILE_SCALING)
-            coin.position = position
-            self.coin_list.append(coin)
-        # Create some gems
-        coordinate_list_gems = [[384, 325], [640, 325]]
+        self.helper.create_coins(constants.COINS_COORDINATES, self.coin_list)
+        # Create Gems
         self.gem_list = arcade.SpriteList()
-        for position in coordinate_list_gems:
-            gem = Gems(":resources:images/items/gemGreen.png", constants.TILE_SCALING)
-            gem.position = position
-            self.gem_list.append(gem)
+        self.helper.create_gems(constants.GEMS_COORDINATES, self.gem_list)
         # Create the 'physics engine'
         self.physics_engine = arcade.PhysicsEnginePlatformer(
             self.player_sprite, gravity_constant=constants.GRAVITY, walls=self.platform_list
@@ -99,7 +79,6 @@ class GameView(arcade.View):
         # Activate the GUI camera before drawing GUI elements
         self.drawing.use_camera(self.gui_camera)
         self.drawing.draw_gui(self.score)
-
 
     def on_key_press(self, key, modifiers):
         """Update the player's movement on key press"""
