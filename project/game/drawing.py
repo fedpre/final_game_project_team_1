@@ -1,4 +1,5 @@
 import arcade
+from game import constants
 
 class Drawing():
     def __init__(self):
@@ -19,6 +20,16 @@ class Drawing():
             score_text,
             10,
             10,
+            arcade.csscolor.WHITE,
+            18,
+        )
+    def draw_gui_timer(self, timer):
+        # Draw our timer on the screen, scrolling it with the viewport
+        timer_text = timer.get_text()
+        arcade.draw_text(
+            timer_text,
+            constants.SCREEN_WIDTH-120,
+            constants.SCREEN_HEIGHT-25,
             arcade.csscolor.WHITE,
             18,
         )

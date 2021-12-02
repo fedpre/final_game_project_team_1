@@ -35,3 +35,5 @@ CRATE_IMAGE = ":resources:images/tiles/boxCrate_double.png"
 COINS_COORDINATES = [[256, 150], [512, 150]]
 GEMS_COORDINATES = [[384, 325], [640, 325]]
 CRATES_COORDINATES = [[256, 96], [384, 275], [512, 96], [640, 275], [768, 275]]
+
+GAME_TIMER_LENGTH = 20 #SECONDS

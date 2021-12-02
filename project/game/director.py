@@ -6,7 +6,9 @@ from game.key_press import UserMovement
 from game.drawing import Drawing
 from game.do_updates import DoUpdates
 from game.score import Score
+from game.timer import Timer
 from game.helper import Helper
+from game.view_over import Game_overView
 
 class GameView(arcade.View):
     """ This will be the main application class """
@@ -29,6 +31,7 @@ class GameView(arcade.View):
         self.physics_engine = None
         # Create the variable to store the score
         self.score = None
+        self.timer = None
         # Create the helper
         self.helper = Helper()
         # Create the sounds
@@ -50,8 +53,9 @@ class GameView(arcade.View):
         # Create the player
         self.player_sprite = Player()
         self.player_list.append(self.player_sprite)
-        # Create the Score
+        # Create the Score and timer
         self.score = Score()
+        self.timer = Timer()
         # Create the ground
         self.helper.create_ground(self.platform_list)
         # Adding Crates
@@ -69,7 +73,7 @@ class GameView(arcade.View):
         # Create the movement checker
         self.player_movement = UserMovement()
         # Create the update object
-        self.do_updates = DoUpdates(self.player_sprite, self.physics_engine, self.camera, self.score)
+        self.do_updates = DoUpdates(self.player_sprite, self.physics_engine, self.camera, self.score, self.timer)
 
     def on_draw(self):
         """ Draw all the elements on the screen """
@@ -79,6 +83,7 @@ class GameView(arcade.View):
         # Activate the GUI camera before drawing GUI elements
         self.drawing.use_camera(self.gui_camera)
         self.drawing.draw_gui(self.score)
+        self.drawing.draw_gui_timer(self.timer)
 
     def on_key_press(self, key, modifiers):
         """Update the player's movement on key press"""
@@ -89,6 +94,10 @@ class GameView(arcade.View):
         self.player_movement.movement_stop(key, modifiers, self.player_sprite)
         
     def on_update(self, delta_time):
+        self.timer.add_time(delta_time)
+        if self.timer.timer <= 0:
+            view = Game_overView()
+            self.window.show_view(view)
         """Movement and game logic"""
         # Update the physics engine and camera
         self.do_updates.do_updates()
