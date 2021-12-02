@@ -30,10 +30,16 @@ GROUND_IMAGE = ":resources:images/tiles/stoneMid.png"
 COINS_IMAGE = ":resources:images/items/gold_1.png"
 GEMS_IMAGE = ":resources:images/items/gemGreen.png"
 CRATE_IMAGE = ":resources:images/tiles/boxCrate_double.png"
+SMALL_PLATFORMS_IMAGE = ":resources:images/tiles/grassHalf.png"
+SIGN_RX_IMAGE = ":resources:images/tiles/signRight.png"
+FINAL_FLAG = ":resources:images/items/flagGreen1.png"
 
-#Sprites Coordinates
-COINS_COORDINATES = [[256, 150], [512, 150]]
-GEMS_COORDINATES = [[384, 325], [640, 325]]
+# Sprites Coordinates
+COINS_COORDINATES = [[256, 150], [512, 150], [900, 150], [965, 150], [1030, 150]]
+GEMS_COORDINATES = [[384, 325], [640, 325],[750, 600], [815, 600]]
 CRATES_COORDINATES = [[256, 96], [384, 275], [512, 96], [640, 275], [768, 275]]
+AIR_PLATFORM = [[900, 275], [965, 275], [1030, 275], [500, 400], [565, 400], [750, 550], [815, 550]]
 
-GAME_TIMER_LENGTH = 20 #SECONDS
+
+# Timer count
+GAME_TIMER_LENGTH = 100 #SECONDS

@@ -4,6 +4,7 @@ from game.coins import Coins
 from game.gems import Gems
 from game.stone import Stone
 from game.crate import Crate
+from game.small_platforms import SmallPlatforms
 
 class Helper():
     def create_ground(self, list):
@@ -28,3 +29,9 @@ class Helper():
             crate = Crate()
             crate.position = position
             list.append(crate)
+
+    def create_small_platforms(self, coordinates, list):
+        for position in coordinates:
+            small_platforms = SmallPlatforms()
+            small_platforms.position = position
+            list.append(small_platforms)

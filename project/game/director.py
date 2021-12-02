@@ -9,6 +9,9 @@ from game.score import Score
 from game.timer import Timer
 from game.helper import Helper
 from game.view_over import Game_overView
+from game.small_platforms import SmallPlatforms
+from game.sign_rx import SignRx
+from game.final_flag import FinalFlag
 
 class GameView(arcade.View):
     """ This will be the main application class """
@@ -32,8 +35,14 @@ class GameView(arcade.View):
         # Create the variable to store the score
         self.score = None
         self.timer = None
+        # Create Small Platforms
+        self.small_platforms = None
         # Create the helper
-        self.helper = Helper()
+        self.helper = None
+        # Create the sign
+        self.sign_rx = None
+        # Create Final Flag
+        self.final_flag = None
         # Create the sounds
         self.background_sound = arcade.load_sound(constants.BACKGROUND_MUSIC_PATH)
         self.jump_sound = arcade.load_sound(constants.JUMP_SOUND)
@@ -44,6 +53,8 @@ class GameView(arcade.View):
         arcade.play_sound(self.background_sound, 0.1)
 
     def setup(self): 
+        # Setup the helper
+        self.helper = Helper()
         # setup camera
         self.camera = Follow_camera(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
         self.gui_camera = arcade.Camera(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
@@ -66,6 +77,17 @@ class GameView(arcade.View):
         # Create Gems
         self.gem_list = arcade.SpriteList()
         self.helper.create_gems(constants.GEMS_COORDINATES, self.gem_list)
+        # Create small platforms
+        self.small_platforms = SmallPlatforms()
+        self.helper.create_small_platforms(constants.AIR_PLATFORM, self.platform_list)
+        # Adding the sign
+        self.sign_rx = SignRx()
+        self.sign_list = arcade.SpriteList()
+        self.sign_list.append(self.sign_rx)
+        # Adding Final Flag
+        self.final_flag = FinalFlag()
+        self.final_flag_list = arcade.SpriteList()
+        self.final_flag_list.append(self.final_flag)
         # Create the 'physics engine'
         self.physics_engine = arcade.PhysicsEnginePlatformer(
             self.player_sprite, gravity_constant=constants.GRAVITY, walls=self.platform_list
@@ -79,7 +101,7 @@ class GameView(arcade.View):
         """ Draw all the elements on the screen """
         self.drawing = Drawing()
         self.drawing.use_camera(self.camera)
-        self.drawing.draw_objects(self.player_list, self.platform_list, self.coin_list, self.gem_list)
+        self.drawing.draw_objects(self.sign_list,self.final_flag_list, self.player_list, self.platform_list, self.coin_list, self.gem_list)
         # Activate the GUI camera before drawing GUI elements
         self.drawing.use_camera(self.gui_camera)
         self.drawing.draw_gui(self.score)
@@ -102,9 +124,11 @@ class GameView(arcade.View):
         # Update the physics engine and camera
         self.do_updates.do_updates()
         # Process the coin hit
-        self.do_updates.check_object_collision(self.coin_list, self.collect_coin_sound)
+        self.do_updates.check_prop_collision(self.coin_list, self.collect_coin_sound)
          # Process the gem hit
-        self.do_updates.check_object_collision(self.gem_list, self.collect_gem_sound)
+        self.do_updates.check_prop_collision(self.gem_list, self.collect_gem_sound)
+        # Process final flag
+        self.do_updates.check_flag_collision(self.final_flag_list, self.setup)
 
 
 
