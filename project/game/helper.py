@@ -8,9 +8,14 @@ from game.small_platforms import SmallPlatforms
 
 class Helper():
     def create_ground(self, list):
+        counter = 0
         for x in range(0, constants.PLATFORM_LENGTH, 60):
+            if counter < 31 and counter > 27:
+                counter += 1
+                continue
             self.stone = Stone(x)
             list.append(self.stone)
+            counter += 1
 
     def create_coins(self, coordinates, list):
         for position in coordinates:

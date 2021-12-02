@@ -33,6 +33,11 @@ class DoUpdates:
         for obj in object_hit_list:
             setup()
 
+    def check_falling(self, player):
+        if player.center_y < - 100:
+            player.center_x = player.get_x()
+            player.center_y = player.get_y()
+
    
 
     

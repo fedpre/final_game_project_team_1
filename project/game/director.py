@@ -127,6 +127,8 @@ class GameView(arcade.View):
         self.do_updates.check_prop_collision(self.coin_list, self.collect_coin_sound)
          # Process the gem hit
         self.do_updates.check_prop_collision(self.gem_list, self.collect_gem_sound)
+        # Check falling
+        self.do_updates.check_falling(self.player_sprite)
         # Process final flag
         self.do_updates.check_flag_collision(self.final_flag_list, self.setup)
 

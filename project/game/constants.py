@@ -26,7 +26,7 @@ GEM_SOUND = ":resources:sounds/coin1.wav"
 
 # Sprites Images
 IMAGE_PLAYER = ":resources:images/animated_characters/female_person/femalePerson_idle.png"
-GROUND_IMAGE = ":resources:images/tiles/stoneMid.png"
+GROUND_IMAGE = ":resources:images/tiles/grassMid.png"
 COINS_IMAGE = ":resources:images/items/gold_1.png"
 GEMS_IMAGE = ":resources:images/items/gemGreen.png"
 CRATE_IMAGE = ":resources:images/tiles/boxCrate_double.png"
@@ -36,9 +36,9 @@ FINAL_FLAG = ":resources:images/items/flagGreen1.png"
 
 # Sprites Coordinates
 COINS_COORDINATES = [[256, 150], [512, 150], [900, 150], [965, 150], [1030, 150]]
-GEMS_COORDINATES = [[384, 325], [640, 325],[750, 600], [815, 600]]
-CRATES_COORDINATES = [[256, 96], [384, 275], [512, 96], [640, 275], [768, 275]]
-AIR_PLATFORM = [[900, 275], [965, 275], [1030, 275], [500, 400], [565, 400], [750, 550], [815, 550]]
+GEMS_COORDINATES = [[384, 325], [640, 325],[750, 600], [815, 600], [1300, 350]]
+CRATES_COORDINATES = [[256, 96], [384, 275], [512, 96], [640, 275], [768, 275], [1300, 96], [1300,155], [1300, 214], [1300, 273], [1235, 96]]
+AIR_PLATFORM = [[900, 275], [965, 275], [1030, 275], [500, 450], [565, 450], [750, 550], [815, 550]]
 
 
 # Timer count
