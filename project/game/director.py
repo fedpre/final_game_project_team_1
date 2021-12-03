@@ -67,6 +67,8 @@ class GameView(arcade.View):
         # Create the player
         self.player_sprite = Player()
         self.player_list.append(self.player_sprite)
+
+
         # # Add Enemies
         # enemies_layer = self.tile_map.object_lists[constants.LAYER_NAME_ENEMIES]
 
@@ -88,6 +90,8 @@ class GameView(arcade.View):
         #         (cartesian[1] + 1) * (self.tile_map.tile_height * constants.TILE_SCALING)
         #     )
         #     self.scene.add_sprite(constants.LAYER_NAME_ENEMIES, enemy)
+
+
         # Create the Score and timer
         self.score = Score()
         self.timer = Timer()
@@ -155,6 +159,8 @@ class GameView(arcade.View):
         self.do_updates.check_falling(self.player_sprite)
         # Process final flag
         self.do_updates.check_flag_collision(self.final_flag_list, self.setup)
+
+        
 
 
 
