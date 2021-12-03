@@ -46,7 +46,8 @@ class Entity(arcade.Sprite):
         # set the hit box
         self.hit_box = self.texture.hit_box_points
     
-    
+
+        
 class RobotEnemy(Entity):
     def __init__(self):
 
@@ -61,6 +62,7 @@ class RobotEnemy(Entity):
         self.jumping = False
         self.climbing = False
         self.is_on_ladder = False
+
 
 class Player(Entity):
 
