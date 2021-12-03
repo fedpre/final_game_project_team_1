@@ -1,5 +1,5 @@
 import arcade
-from game.player import Player
+from game.entity import Player
 from game import constants
 from game.coins import Coins
 from game.gems import Gems

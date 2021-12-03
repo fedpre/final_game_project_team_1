@@ -1,5 +1,7 @@
+import math
+from logging import raiseExceptions
 import arcade
-from game.player import Player
+from game.entity import Player
 from game import constants
 from game.follow_camera import Follow_camera
 from game.key_press import UserMovement
@@ -12,6 +14,7 @@ from game.view_over import Game_overView
 from game.small_platforms import SmallPlatforms
 from game.sign_rx import SignRx
 from game.final_flag import FinalFlag
+from game.entity import RobotEnemy, ZombieEnemy
 
 class GameView(arcade.View):
     """ This will be the main application class """
@@ -64,6 +67,27 @@ class GameView(arcade.View):
         # Create the player
         self.player_sprite = Player()
         self.player_list.append(self.player_sprite)
+        # # Add Enemies
+        # enemies_layer = self.tile_map.object_lists[constants.LAYER_NAME_ENEMIES]
+
+        # for my_object in enemies_layer:
+        #     cartesian = self.tile_map.get_cartesian(
+        #         my_object.shape[0], my_object.shape[1]
+        #     )
+        #     enemy_type = my_object.properties["type"]
+        #     if enemy_type == "robot":
+        #         enemy = RobotEnemy()
+        #     elif enemy_type == "zombie":
+        #         enemie = ZombieEnemy()
+        #     else:
+        #         raise Exception(f"Unknown enemy type: {enemy_type}")
+        #     enemy.center_x = math.floor(
+        #         cartesian[0] * constants.TILE_SCALING * self.tile_map.tile_width
+        #     )
+        #     enemy.center_y = math.floor(
+        #         (cartesian[1] + 1) * (self.tile_map.tile_height * constants.TILE_SCALING)
+        #     )
+        #     self.scene.add_sprite(constants.LAYER_NAME_ENEMIES, enemy)
         # Create the Score and timer
         self.score = Score()
         self.timer = Timer()
