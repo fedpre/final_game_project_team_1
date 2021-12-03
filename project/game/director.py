@@ -159,6 +159,7 @@ class GameView(arcade.View):
         self.do_updates.check_falling(self.player_sprite)
         # Process final flag
         self.do_updates.check_flag_collision(self.final_flag_list, self.setup)
+        self.do_updates.update_animation(self.player_sprite)
 
         
 
