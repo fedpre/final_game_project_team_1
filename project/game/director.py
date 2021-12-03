@@ -14,7 +14,7 @@ from game.view_over import Game_overView
 from game.small_platforms import SmallPlatforms
 from game.sign_rx import SignRx
 from game.final_flag import FinalFlag
-from game.entity import RobotEnemy, ZombieEnemy
+from game.entity import RobotEnemy
 
 class GameView(arcade.View):
     """ This will be the main application class """
@@ -46,6 +46,8 @@ class GameView(arcade.View):
         self.sign_rx = None
         # Create Final Flag
         self.final_flag = None
+        # Create Enemy List
+        self.robot_enemy_list = None
         # Create the sounds
         self.background_sound = arcade.load_sound(constants.BACKGROUND_MUSIC_PATH)
         self.jump_sound = arcade.load_sound(constants.JUMP_SOUND)
@@ -68,30 +70,9 @@ class GameView(arcade.View):
         self.player_sprite = Player()
         self.player_list.append(self.player_sprite)
 
-
-        # # Add Enemies
-        # enemies_layer = self.tile_map.object_lists[constants.LAYER_NAME_ENEMIES]
-
-        # for my_object in enemies_layer:
-        #     cartesian = self.tile_map.get_cartesian(
-        #         my_object.shape[0], my_object.shape[1]
-        #     )
-        #     enemy_type = my_object.properties["type"]
-        #     if enemy_type == "robot":
-        #         enemy = RobotEnemy()
-        #     elif enemy_type == "zombie":
-        #         enemie = ZombieEnemy()
-        #     else:
-        #         raise Exception(f"Unknown enemy type: {enemy_type}")
-        #     enemy.center_x = math.floor(
-        #         cartesian[0] * constants.TILE_SCALING * self.tile_map.tile_width
-        #     )
-        #     enemy.center_y = math.floor(
-        #         (cartesian[1] + 1) * (self.tile_map.tile_height * constants.TILE_SCALING)
-        #     )
-        #     self.scene.add_sprite(constants.LAYER_NAME_ENEMIES, enemy)
-
-
+        # Create enemies
+        self.robot_enemy_list = arcade.SpriteList()
+        self.helper.create_robot_enemy(constants.ENEMY_COORDINATES, self.robot_enemy_list)
         # Create the Score and timer
         self.score = Score()
         self.timer = Timer()
@@ -129,7 +110,7 @@ class GameView(arcade.View):
         """ Draw all the elements on the screen """
         self.drawing = Drawing()
         self.drawing.use_camera(self.camera)
-        self.drawing.draw_objects(self.sign_list,self.final_flag_list, self.player_list, self.platform_list, self.coin_list, self.gem_list)
+        self.drawing.draw_objects(self.sign_list,self.final_flag_list, self.player_list, self.robot_enemy_list, self.platform_list, self.coin_list, self.gem_list)
         # Activate the GUI camera before drawing GUI elements
         self.drawing.use_camera(self.gui_camera)
         self.drawing.draw_gui(self.score)
@@ -156,10 +137,13 @@ class GameView(arcade.View):
          # Process the gem hit
         self.do_updates.check_prop_collision(self.gem_list, self.collect_gem_sound)
         # Check falling
-        self.do_updates.check_falling(self.player_sprite)
+        self.do_updates.check_falling()
         # Process final flag
         self.do_updates.check_flag_collision(self.final_flag_list, self.setup)
-        self.do_updates.update_animation(self.player_sprite)
+        # Update Animation
+        self.do_updates.update_animation()
+        # Check collision with enemies
+        self.do_updates.check_collision_enemies(self.robot_enemy_list, self.setup)
 
         
 

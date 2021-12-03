@@ -33,14 +33,21 @@ class DoUpdates:
         for obj in object_hit_list:
             setup()
 
-    def check_falling(self, player):
-        if player.center_y < - 100:
-            player.center_x = player.get_x()
-            player.center_y = player.get_y()
+    def check_falling(self):
+        if self._player.center_y < - 100:
+            self._player.center_x = self._player.get_x()
+            self._player.center_y = self._player.get_y()
     
-    def update_animation(self, player):
-        player.update_animation()
+    def update_animation(self):
+        self._player.update_animation()
 
+    def check_collision_enemies(self, en_li, setup):
+        hit_list = arcade.check_for_collision_with_list(
+            self._player, en_li
+        )
+
+        for enemy in hit_list:
+            setup()
    
 
     

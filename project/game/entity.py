@@ -47,24 +47,20 @@ class Entity(arcade.Sprite):
         self.hit_box = self.texture.hit_box_points
     
     
-
-class Enemy(Entity):
-    def __init__(self, name_folder, name_file):
-
-        # Setup parent class
-        super().__init__(name_folder, name_file)
-        
 class RobotEnemy(Entity):
-    def __init__(self, name_folder, name_file):
+    def __init__(self):
 
         # Setup parent class
         super().__init__("robot", "robot")
 
-class ZombieEnemy(Entity):
-    def __init__(self, name_folder, name_file):
+        # set initial position
+        self.center_x = 64
+        self.center_y = 128
 
-        # Setup parent class
-        super().__init__("zombie", "zombie")
+        # set initial state
+        self.jumping = False
+        self.climbing = False
+        self.is_on_ladder = False
 
 class Player(Entity):
 

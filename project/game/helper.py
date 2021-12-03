@@ -5,6 +5,7 @@ from game.gems import Gems
 from game.stone import Stone
 from game.crate import Crate
 from game.small_platforms import SmallPlatforms
+from game.entity import RobotEnemy
 
 class Helper():
     def create_ground(self, list):
@@ -40,3 +41,9 @@ class Helper():
             small_platforms = SmallPlatforms()
             small_platforms.position = position
             list.append(small_platforms)
+    
+    def create_robot_enemy(self, coordinates, list):
+        for position in coordinates:
+            robot = RobotEnemy()
+            robot.position = position
+            list.append(robot)
