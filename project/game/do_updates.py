@@ -38,14 +38,15 @@ class DoUpdates:
             self._player.center_x = self._player.get_x()
             self._player.center_y = self._player.get_y()
     
-    def update_animation(self):
+    def update_animation(self, enemy_list):
         self._player.update_animation()
+        for enemy in enemy_list:
+            enemy.update_animation()
 
     def check_collision_enemies(self, en_li, setup):
         hit_list = arcade.check_for_collision_with_list(
             self._player, en_li
         )
-
         for enemy in hit_list:
             setup()
    

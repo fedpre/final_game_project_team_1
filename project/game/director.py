@@ -141,7 +141,7 @@ class GameView(arcade.View):
         # Process final flag
         self.do_updates.check_flag_collision(self.final_flag_list, self.setup)
         # Update Animation
-        self.do_updates.update_animation()
+        self.do_updates.update_animation(self.robot_enemy_list)
         # Check collision with enemies
         self.do_updates.check_collision_enemies(self.robot_enemy_list, self.setup)
 
