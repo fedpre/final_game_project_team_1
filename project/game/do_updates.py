@@ -1,5 +1,4 @@
 import arcade
-
 class DoUpdates:
     def __init__(self, player, physics_engine, camera, score, timer):
         self._player = player
@@ -7,13 +6,10 @@ class DoUpdates:
         self._camera = camera
         self._score = score
         self._timer = timer
-
         self._engine.update()
-
     def do_updates(self):
         self._engine.update()
         self._camera.center_camera_to_player(self._player)
-
     def check_prop_collision(self, object_list, sound):
         object_hit_list = arcade.check_for_collision_with_list(
             self._player, object_list
@@ -25,30 +21,23 @@ class DoUpdates:
             arcade.play_sound(sound)
             points = obj.get_value()
             self._score.add_point(points)
-
     def check_flag_collision(self, object_list, setup):
         object_hit_list = arcade.check_for_collision_with_list(
             self._player, object_list
         )
         for obj in object_hit_list:
             setup()
-
     def check_falling(self):
         if self._player.center_y < - 100:
             self._player.center_x = self._player.get_x()
             self._player.center_y = self._player.get_y()
     
-    def update_animation(self, enemy_list):
+    def update_animation(self):
         self._player.update_animation()
-        for enemy in enemy_list:
-            enemy.update_animation()
-
+        
     def check_collision_enemies(self, en_li, setup):
         hit_list = arcade.check_for_collision_with_list(
             self._player, en_li
         )
         for enemy in hit_list:
             setup()
-   
-
-    
