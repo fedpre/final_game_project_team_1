@@ -15,7 +15,7 @@ from game.small_platforms import SmallPlatforms
 from game.sign_rx import SignRx
 from game.final_flag import FinalFlag
 from game.entity import RobotEnemy
-
+import random
 class GameView(arcade.View):
     """ This will be the main application class """
     def __init__(self):
@@ -53,10 +53,9 @@ class GameView(arcade.View):
         self.jump_sound = arcade.load_sound(constants.JUMP_SOUND)
         self.collect_coin_sound = arcade.load_sound(constants.COIN_SOUND)
         self.collect_gem_sound = arcade.load_sound(constants.GEM_SOUND)
-        # Set the background and play the sound
+        # Set the background and play the sound
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
         arcade.play_sound(self.background_sound, 0.1)
-
     def setup(self): 
         # Setup the helper
         self.helper = Helper()
@@ -69,26 +68,17 @@ class GameView(arcade.View):
         # Create the player
         self.player_sprite = Player()
         self.player_list.append(self.player_sprite)
-
         # Create enemies
         self.robot_enemy_list = arcade.SpriteList()
-        self.helper.create_robot_enemy(constants.ENEMY_COORDINATES, self.robot_enemy_list)
+        self.coin_list = arcade.SpriteList()
+        self.gem_list = arcade.SpriteList()
         # Create the Score and timer
         self.score = Score()
         self.timer = Timer()
         # Create the ground
-        self.helper.create_ground(self.platform_list)
         # Adding Crates
-        self.helper.create_crates(constants.CRATES_COORDINATES, self.platform_list)
-        # Create Coins
-        self.coin_list = arcade.SpriteList()
-        self.helper.create_coins(constants.COINS_COORDINATES, self.coin_list)
-        # Create Gems
-        self.gem_list = arcade.SpriteList()
-        self.helper.create_gems(constants.GEMS_COORDINATES, self.gem_list)
-        # Create small platforms
-        self.small_platforms = SmallPlatforms()
-        self.helper.create_small_platforms(constants.AIR_PLATFORM, self.platform_list)
+        self.x = self.helper.create_scene(self.platform_list, self.coin_list, self.gem_list, self.robot_enemy_list)
+        self.helper.create_ground(self.x, self.platform_list)
         # Adding the sign
         self.sign_rx = SignRx()
         self.sign_list = arcade.SpriteList()
@@ -96,6 +86,7 @@ class GameView(arcade.View):
         # Adding Final Flag
         self.final_flag = FinalFlag()
         self.final_flag_list = arcade.SpriteList()
+        self.final_flag.set_position(self.x + 300)
         self.final_flag_list.append(self.final_flag)
         # Create the 'physics engine'
         self.physics_engine = arcade.PhysicsEnginePlatformer(
@@ -105,7 +96,6 @@ class GameView(arcade.View):
         self.player_movement = UserMovement()
         # Create the update object
         self.do_updates = DoUpdates(self.player_sprite, self.physics_engine, self.camera, self.score, self.timer)
-
     def on_draw(self):
         """ Draw all the elements on the screen """
         self.drawing = Drawing()
@@ -115,11 +105,9 @@ class GameView(arcade.View):
         self.drawing.use_camera(self.gui_camera)
         self.drawing.draw_gui(self.score)
         self.drawing.draw_gui_timer(self.timer)
-
     def on_key_press(self, key, modifiers):
         """Update the player's movement on key press"""
         self.player_movement.movement(key, modifiers, self.player_sprite, self.physics_engine, self.jump_sound)
-
     def on_key_release(self, key, modifiers):
         """Update the player's movement on key release"""
         self.player_movement.movement_stop(key, modifiers, self.player_sprite)
@@ -141,12 +129,6 @@ class GameView(arcade.View):
         # Process final flag
         self.do_updates.check_flag_collision(self.final_flag_list, self.setup)
         # Update Animation
-        self.do_updates.update_animation(self.robot_enemy_list)
+        self.do_updates.update_animation()
         # Check collision with enemies
         self.do_updates.check_collision_enemies(self.robot_enemy_list, self.setup)
-
-        
-
-
-
-    
