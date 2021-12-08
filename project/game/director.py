@@ -96,7 +96,7 @@ class GameView(arcade.View):
         # Create the movement checker
         self.player_movement = UserMovement()
         # Create the update object
-        self.do_updates = DoUpdates(self.player_sprite, self.physics_engine, self.camera, self.score, self.timer)
+        self.do_updates = DoUpdates(self.player_sprite, self.physics_engine, self.camera, self.score, self.timer, self.robot_enemy_list)
     def on_draw(self):
         """ Draw all the elements on the screen """
         self.drawing = Drawing()
@@ -132,7 +132,7 @@ class GameView(arcade.View):
         # Process final flag
         self.do_updates.check_flag_collision(self.final_flag_list, self.game_over)
         # Update Animation
-        self.do_updates.update_animation()
+        self.do_updates.update_animation(self.robot_enemy_list)
         # Check collision with enemies
         self.do_updates.check_collision_enemies(self.robot_enemy_list, self.game_over)
         

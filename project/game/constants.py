@@ -11,7 +11,7 @@ TILE_SCALING = 0.5
 PLAYER_MOVEMENT_SPEED = 5
 GRAVITY = 1
 MAX_JUMP_LENGTH = 128
-PLAYER_JUMP_SPEED = 20
+PLAYER_JUMP_SPEED = 25
 # Path
 PATH = os.path.dirname(os.path.abspath(__file__))
 BACKGROUND_MUSIC_PATH = PATH + "/sounds/background.wav"
