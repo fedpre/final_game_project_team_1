@@ -31,13 +31,13 @@ class DoUpdates:
         if self._player.center_y < - 100:
             self._player.center_x = self._player.get_x()
             self._player.center_y = self._player.get_y()
-    
+                    
     def update_animation(self):
         self._player.update_animation()
         
-    def check_collision_enemies(self, en_li, setup):
+    def check_collision_enemies(self, en_li, game_over):
         hit_list = arcade.check_for_collision_with_list(
             self._player, en_li
         )
         for enemy in hit_list:
-            setup()
+            game_over()

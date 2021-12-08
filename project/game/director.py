@@ -16,6 +16,7 @@ from game.sign_rx import SignRx
 from game.final_flag import FinalFlag
 from game.entity import RobotEnemy
 import random
+
 class GameView(arcade.View):
     """ This will be the main application class """
     def __init__(self):
@@ -111,7 +112,9 @@ class GameView(arcade.View):
     def on_key_release(self, key, modifiers):
         """Update the player's movement on key release"""
         self.player_movement.movement_stop(key, modifiers, self.player_sprite)
-        
+    def game_over(self):
+        view = Game_overView()
+        self.window.show_view(view)
     def on_update(self, delta_time):
         self.timer.add_time(delta_time)
         if self.timer.timer <= 0:
@@ -127,8 +130,9 @@ class GameView(arcade.View):
         # Check falling
         self.do_updates.check_falling()
         # Process final flag
-        self.do_updates.check_flag_collision(self.final_flag_list, self.setup)
+        self.do_updates.check_flag_collision(self.final_flag_list, self.game_over)
         # Update Animation
         self.do_updates.update_animation()
         # Check collision with enemies
-        self.do_updates.check_collision_enemies(self.robot_enemy_list, self.setup)
+        self.do_updates.check_collision_enemies(self.robot_enemy_list, self.game_over)
+        
