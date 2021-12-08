@@ -49,6 +49,8 @@ class GameView(arcade.View):
         self.final_flag = None
         # Create Enemy List
         self.robot_enemy_list = None
+        # Track levels
+        self.levels = -1;
         # Create the sounds
         self.background_sound = arcade.load_sound(constants.BACKGROUND_MUSIC_PATH)
         self.jump_sound = arcade.load_sound(constants.JUMP_SOUND)
@@ -58,6 +60,7 @@ class GameView(arcade.View):
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
         arcade.play_sound(self.background_sound, 0.1)
     def setup(self): 
+        self.levels += 1
         # Setup the helper
         self.helper = Helper()
         # setup camera
@@ -91,12 +94,19 @@ class GameView(arcade.View):
         self.final_flag_list.append(self.final_flag)
         # Create the 'physics engine'
         self.physics_engine = arcade.PhysicsEnginePlatformer(
-            self.player_sprite, gravity_constant=constants.GRAVITY, walls=self.platform_list
+            player_sprite=self.player_sprite, gravity_constant=constants.GRAVITY, walls=self.platform_list
         )
+        self.power_engine = arcade.PymunkPhysicsEngine(gravity=(0, -1500), damping=1.0)
+        self.power_engine.add_sprite_list(self.robot_enemy_list)
+        self.power_engine.add_sprite_list(self.platform_list,
+                                            friction=0.7,
+                                            collision_type="wall",
+                                            body_type=arcade.PymunkPhysicsEngine.STATIC)
+        
         # Create the movement checker
         self.player_movement = UserMovement()
         # Create the update object
-        self.do_updates = DoUpdates(self.player_sprite, self.physics_engine, self.camera, self.score, self.timer, self.robot_enemy_list)
+        self.do_updates = DoUpdates(self.player_sprite, self.physics_engine, self.camera, self.score, self.timer, self.robot_enemy_list, self.power_engine)
     def on_draw(self):
         """ Draw all the elements on the screen """
         self.drawing = Drawing()
@@ -130,9 +140,12 @@ class GameView(arcade.View):
         # Check falling
         self.do_updates.check_falling()
         # Process final flag
-        self.do_updates.check_flag_collision(self.final_flag_list, self.game_over)
+        self.do_updates.check_flag_collision(self.final_flag_list, self.setup, self.levels, self.game_over)
         # Update Animation
-        self.do_updates.update_animation(self.robot_enemy_list)
+        self.do_updates.update_animation()
         # Check collision with enemies
         self.do_updates.check_collision_enemies(self.robot_enemy_list, self.game_over)
+        self.do_updates.update_enemies(self.robot_enemy_list)
+        
+
         
