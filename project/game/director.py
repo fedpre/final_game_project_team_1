@@ -88,7 +88,7 @@ class GameView(arcade.View):
         # Adding Final Flag
         self.final_flag = FinalFlag()
         self.final_flag_list = arcade.SpriteList()
-        self.final_flag.set_position(self.x + 300)
+        self.final_flag.set_position(self.x + 250)
         self.final_flag_list.append(self.final_flag)
         # Create the 'physics engine'
         self.physics_engine = arcade.PhysicsEnginePlatformer(
