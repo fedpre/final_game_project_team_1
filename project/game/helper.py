@@ -32,10 +32,10 @@ class Helper():
             last_y = self.y
             self.x = random.randint(last_x + 64, (last_x + 200))
             self.y = random.randint(96, (last_y + constants.MAX_JUMP_LENGTH))
-            option = random.randint(1,6)   #even for coins, odd for gems, 5 for enemy
+            option = random.randint(1,10)   #even for coins, odd for gems, 5 for enemy
             lenght = random.randint(1,10)   #amounts of blocks together
             block = 0
-            if option > 4:
+            if option == 4 or option == 5:
                 robot = RobotEnemy()
                 robot.position = [self.x, self.y + 96]
                 robots.append(robot)

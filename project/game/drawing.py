@@ -16,6 +16,7 @@ class Drawing():
     def draw_gui(self, score):
         # Draw our score on the screen, scrolling it with the viewport
         score_text = score.get_text()
+
         arcade.draw_text(
             score_text,
             10,

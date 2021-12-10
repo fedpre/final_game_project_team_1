@@ -22,18 +22,17 @@ class DoUpdates:
             arcade.play_sound(sound)
             points = obj.get_value()
             self._score.add_point(points)
-    def check_flag_collision(self, object_list, setup, gameover, level_counter):
+    def check_flag_collision(self, object_list, setup, gameover, level):
         object_hit_list = arcade.check_for_collision_with_list(
             self._player, object_list
         )
         for obj in object_hit_list:
-            if (level_counter == 3):
+            if (level.get_level() == 2):
                 gameover()
             else:
+                level.increment_level()
                 setup()
         
-
-
     def check_falling(self):
         if self._player.center_y < - 100:
             self._player.center_x = self._player.get_x()

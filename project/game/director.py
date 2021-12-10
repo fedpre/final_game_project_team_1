@@ -14,7 +14,7 @@ from game.view_over import Game_overView
 from game.small_platforms import SmallPlatforms
 from game.sign_rx import SignRx
 from game.final_flag import FinalFlag
-from game.entity import RobotEnemy
+from game.level import Level
 import random
 
 class GameView(arcade.View):
@@ -37,7 +37,7 @@ class GameView(arcade.View):
         # Create the physics engine
         self.physics_engine = None
         # Create the variable to store the score
-        self.score = None
+        self.score = Score()
         self.timer = None
         # Create Small Platforms
         self.small_platforms = None
@@ -50,7 +50,7 @@ class GameView(arcade.View):
         # Create Enemy List
         self.robot_enemy_list = None
         # Level counter
-        self.level_counter = 0
+        self.level = Level()
         # Create the sounds
         self.background_sound = arcade.load_sound(constants.BACKGROUND_MUSIC_PATH)
         self.jump_sound = arcade.load_sound(constants.JUMP_SOUND)
@@ -76,7 +76,6 @@ class GameView(arcade.View):
         self.coin_list = arcade.SpriteList()
         self.gem_list = arcade.SpriteList()
         # Create the Score and timer
-        self.score = Score()
         self.timer = Timer()
         # Create the ground
         # Adding Crates
@@ -132,8 +131,7 @@ class GameView(arcade.View):
         # Check falling
         self.do_updates.check_falling()
         # Process final flag
-        self.do_updates.check_flag_collision(self.final_flag_list, self.setup, self.game_over, self.level_counter)
-        self.level_counter += 1
+        self.do_updates.check_flag_collision(self.final_flag_list, self.setup, self.game_over, self.level)
         # Update Animation
         self.do_updates.update_animation(self.robot_enemy_list)
         # Check collision with enemies
