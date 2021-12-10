@@ -49,6 +49,8 @@ class GameView(arcade.View):
         self.final_flag = None
         # Create Enemy List
         self.robot_enemy_list = None
+        # Level counter
+        self.level_counter = 0
         # Create the sounds
         self.background_sound = arcade.load_sound(constants.BACKGROUND_MUSIC_PATH)
         self.jump_sound = arcade.load_sound(constants.JUMP_SOUND)
@@ -130,7 +132,8 @@ class GameView(arcade.View):
         # Check falling
         self.do_updates.check_falling()
         # Process final flag
-        self.do_updates.check_flag_collision(self.final_flag_list, self.game_over)
+        self.do_updates.check_flag_collision(self.final_flag_list, self.setup, self.game_over, self.level_counter)
+        self.level_counter += 1
         # Update Animation
         self.do_updates.update_animation(self.robot_enemy_list)
         # Check collision with enemies
