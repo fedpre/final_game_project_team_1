@@ -103,7 +103,7 @@ class GameView(arcade.View):
         """ Draw all the elements on the screen """
         self.drawing = Drawing()
         self.drawing.use_camera(self.camera)
-        self.drawing.draw_objects(self.sign_list,self.final_flag_list, self.player_list, self.robot_enemy_list, self.platform_list, self.coin_list, self.gem_list)
+        self.drawing.draw_objects(self.robot_enemy_list, self.sign_list, self.final_flag_list, self.player_list, self.platform_list, self.coin_list, self.gem_list)
         # Activate the GUI camera before drawing GUI elements
         self.drawing.use_camera(self.gui_camera)
         self.drawing.draw_gui(self.score)

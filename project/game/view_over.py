@@ -1,7 +1,9 @@
 import arcade
 from game import constants
 
+
 class Game_overView(arcade.View):
+
 
     def on_show(self):
         #this is run once we swithc to this view
@@ -17,5 +19,5 @@ class Game_overView(arcade.View):
                          arcade.color.WHITE, font_size=50, anchor_x="center")
         
     def on_mouse_press(self, _x, _y, _button, _modifiers):
-        """End Over"""
+        """END OVER"""
         

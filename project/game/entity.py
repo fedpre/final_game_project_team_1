@@ -85,9 +85,7 @@ class RobotEnemy(Entity):
             self.texture = self.walk_textures[self.cur_texture][self.facing_direction]
             self.should_update_walk = 0
             return
-
         self.should_update_walk += 1
-
 
 class Player(Entity):
 
