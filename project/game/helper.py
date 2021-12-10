@@ -36,12 +36,12 @@ class Helper():
             lenght = random.randint(1,10)   #amounts of blocks together
             block = 0
             if option > 4:
-                crate = Crate()
-                crate.position = [self.x, self.y]
-                creates.append(crate)
                 robot = RobotEnemy()
                 robot.position = [self.x, self.y + 96]
                 robots.append(robot)
+                crate = Crate()
+                crate.position = [self.x, self.y]
+                creates.append(crate)
             else:                
                 while block < lenght:
                     if (self.y % 2 == 0):
