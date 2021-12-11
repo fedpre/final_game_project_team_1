@@ -51,6 +51,7 @@ class GameView(arcade.View):
         self.robot_enemy_list = None
         # Level counter
         self.level = Level()
+        self.playing_background_music = None
         # Create the sounds
         self.background_sound = arcade.load_sound(constants.BACKGROUND_MUSIC_PATH)
         self.jump_sound = arcade.load_sound(constants.JUMP_SOUND)
@@ -58,8 +59,8 @@ class GameView(arcade.View):
         self.collect_gem_sound = arcade.load_sound(constants.GEM_SOUND)
         # Set the background and play the sound
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
-        arcade.play_sound(self.background_sound, 0.1)
     def setup(self): 
+        self.playing_background_music = arcade.play_sound(self.background_sound, 0.1)
         # Setup the helper
         self.helper = Helper()
         # setup camera
@@ -114,13 +115,13 @@ class GameView(arcade.View):
         """Update the player's movement on key release"""
         self.player_movement.movement_stop(key, modifiers, self.player_sprite)
     def game_over(self):
+        arcade.stop_sound(self.playing_background_music)
         view = Game_overView()
         self.window.show_view(view)
     def on_update(self, delta_time):
         self.timer.add_time(delta_time)
         if self.timer.timer <= 0:
-            view = Game_overView()
-            self.window.show_view(view)
+            self.game_over()
         """Movement and game logic"""
         # Update the physics engine and camera
         self.do_updates.do_updates()
