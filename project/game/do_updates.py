@@ -1,12 +1,13 @@
 import arcade
 class DoUpdates:
-    def __init__(self, player, physics_engine, camera, score, timer, enemies):
+    def __init__(self, player, physics_engine, camera, score, timer, enemies, level):
         self._player = player
         self._engine = physics_engine
         self._camera = camera
         self._score = score
         self._timer = timer
         self._enemies = enemies
+        self._level = level
         self._engine.update()
     def do_updates(self):
         self._engine.update()

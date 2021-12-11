@@ -34,3 +34,14 @@ class Drawing():
             arcade.csscolor.WHITE,
             18,
         )
+
+    def draw_gui_level(self, level):
+        # Draw the level on the screen, scrolling it with the viewport
+        level_text = level.get_text()
+        arcade.draw_text(
+            level_text,
+            constants.SCREEN_WIDTH-250,
+            constants.SCREEN_HEIGHT-25,
+            arcade.csscolor.WHITE,
+            18,
+        )

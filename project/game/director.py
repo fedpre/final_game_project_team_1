@@ -76,7 +76,7 @@ class GameView(arcade.View):
         self.robot_enemy_list = arcade.SpriteList()
         self.coin_list = arcade.SpriteList()
         self.gem_list = arcade.SpriteList()
-        # Create the Score and timer
+        # Create the timer
         self.timer = Timer()
         # Create the ground
         # Adding Crates
@@ -98,7 +98,7 @@ class GameView(arcade.View):
         # Create the movement checker
         self.player_movement = UserMovement()
         # Create the update object
-        self.do_updates = DoUpdates(self.player_sprite, self.physics_engine, self.camera, self.score, self.timer, self.robot_enemy_list)
+        self.do_updates = DoUpdates(self.player_sprite, self.physics_engine, self.camera, self.score, self.timer, self.robot_enemy_list, self.level)
     def on_draw(self):
         """ Draw all the elements on the screen """
         self.drawing = Drawing()
@@ -108,6 +108,7 @@ class GameView(arcade.View):
         self.drawing.use_camera(self.gui_camera)
         self.drawing.draw_gui(self.score)
         self.drawing.draw_gui_timer(self.timer)
+        self.drawing.draw_gui_level(self.level)
     def on_key_press(self, key, modifiers):
         """Update the player's movement on key press"""
         self.player_movement.movement(key, modifiers, self.player_sprite, self.physics_engine, self.jump_sound)
